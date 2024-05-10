@@ -5,5 +5,8 @@ kind: Kustomization
 bases:
   - ../../base
 
-resources:
-  - version.yaml
+patches:
+  - target:
+      kind: ClusterVersion
+      name: version
+    path: overlays/patch-cluster-version.yaml
