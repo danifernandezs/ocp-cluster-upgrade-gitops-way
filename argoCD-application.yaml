@@ -1,0 +1,20 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cluster-upgrade
+  namespace: openshift-gitops
+spec:
+  destination:
+    server: 'https://kubernetes.default.svc'
+  project: default
+  source:
+    path: overlays/in-cluster
+    repoURL: 'https://github.com/danifernandezs/ocp-cluster-upgrade-gitops-way.git'
+    targetRevision: HEAD
+  syncPolicy:
+    syncOptions:
+      - Validate=false
+      - ApplyOutOfSyncOnly=true
+      - SuppressSync=*
+      - 'Resources={"group":"*","kind":"ClusterVersion","name":"version","version":"*","prune":false}'
